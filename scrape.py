@@ -5,7 +5,7 @@ from webscraper import Webscraper
 
 logging.basicConfig(format='%(levelname)s: %(message)s', level=logging.INFO)
 
-def main():
+def scrape():
 
     parser = argparse.ArgumentParser(description='Web Scraper Script')
     parser.add_argument('-num_pages', type=int, default=None, help='Number of pages to scrape per location (24 listings per page)')
@@ -34,9 +34,9 @@ def main():
         
     mongo = args.mongo
 
-    TestClass = Webscraper(user_agent, location_codes, num_pages, mongo)
-    TestClass.scrape()
+    Scraper = Webscraper(user_agent, location_codes, num_pages, mongo)
+    Scraper.scrape()
 
 
 if __name__ == "__main__":
-    main()
+    scrape()
