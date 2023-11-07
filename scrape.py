@@ -10,7 +10,7 @@ def main():
     parser = argparse.ArgumentParser(description='Web Scraper Script')
     parser.add_argument('-num_pages', type=int, default=None, help='Number of pages to scrape per location (24 listings per page)')
     parser.add_argument('--test', action='store_true', help='Set to true to run in test mode')
-    parser.add_argument('--mongo', action='store_false', help='Save results in mongoDB (assumes .env file)')
+    parser.add_argument('--mongo', action='store_true', help='Save results in mongoDB (assumes .env file)')
     args = parser.parse_args()
 
     

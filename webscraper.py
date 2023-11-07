@@ -3,6 +3,7 @@ import json
 import logging
 import requests
 from tqdm import tqdm
+from bson import json_util
 from dotenv import load_dotenv
 from bs4 import BeautifulSoup
 from datetime import datetime
@@ -31,7 +32,8 @@ class Webscraper:
 
         existing_property_ids = [str(i) for i in collection.distinct('id')]
         properties_to_insert = [prop for prop in properties if prop['id'] not in existing_property_ids]
-        collection.insert_many(properties_to_insert)
+        if len(properties_to_insert):
+            collection.insert_many(properties_to_insert)
 
         logging.info(f'{len(properties_to_insert)} new properties written to MongoDB \n')
 
@@ -44,9 +46,10 @@ class Webscraper:
         if not os.path.isdir("json_data"):
             os.mkdir('json_data')
 
-        with open(f'json_data/{location}_properties_{timestring}.json', 'w', encoding='utf-8') as f:
-            # f.write(json_util.dumps(properties))
-            json.dump(properties, f, indent=4)
+        os.mkdir(f"json_data/{timestring}")
+
+        with open(f'json_data/{timestring}/{location}_properties_{timestring}.json', 'w', encoding='utf-8') as f:
+            f.write(json_util.dumps(properties))
 
         return timestring
 
