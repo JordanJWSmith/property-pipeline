@@ -19,7 +19,7 @@ def main():
     num_pages = 1
     location_codes = {'wandsworth': "5E93977"}
 
-    TestClass = Webscraper(user_agent, location_codes, num_pages)
+    TestClass = Webscraper(user_agent, location_codes, num_pages, mongo=False)
     TestClass.scrape()
 
 

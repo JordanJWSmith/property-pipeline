@@ -11,15 +11,17 @@ from pymongo import MongoClient
 load_dotenv()
 
 class Webscraper:
-    def __init__(self, user_agent, location_codes, num_pages):
+    def __init__(self, user_agent, location_codes, num_pages, mongo):
         self.user_agent = user_agent
         self.location_codes = location_codes
         self.num_pages = num_pages
-        self.MONGO_USER = os.getenv('MONGO_USER')
-        self.MONGO_PASSWORD = os.getenv('MONGO_PASSWORD')
-        self.MONGO_CLUSTER = os.getenv('MONGO_CLUSTER')
-        self.MONGO_DB_NAME = os.getenv('MONGO_DB_NAME')
-        self.MONGO_COLLECTION = os.getenv('MONGO_COLLECTION')
+        self.mongo = mongo
+        if self.mongo:
+            self.MONGO_USER = os.getenv('MONGO_USER')
+            self.MONGO_PASSWORD = os.getenv('MONGO_PASSWORD')
+            self.MONGO_CLUSTER = os.getenv('MONGO_CLUSTER')
+            self.MONGO_DB_NAME = os.getenv('MONGO_DB_NAME')
+            self.MONGO_COLLECTION = os.getenv('MONGO_COLLECTION')
 
 
     def insert_many_to_mongo(self, properties):
@@ -45,6 +47,8 @@ class Webscraper:
         with open(f'json_data/{location}_properties_{timestring}.json', 'w', encoding='utf-8') as f:
             # f.write(json_util.dumps(properties))
             json.dump(properties, f, indent=4)
+
+        return timestring
 
 
     def scrape_location(self, location, location_code):
@@ -91,16 +95,18 @@ class Webscraper:
     
     def scrape(self):
         line_break = '*'*20
-        # prop_count = 0
+        prop_count = 0
         for location, code in self.location_codes.items():
             logging.info(f'{line_break} Beginning scraping from {location} {line_break}')
 
             location_properties = self.scrape_location(location, code)
 
-            # inserted_property_count = self.insert_many_to_mongo(location_properties)
+            inserted_property_count = self.insert_many_to_mongo(location_properties) if self.mongo else len(location_properties)
 
-            self.save_json(location, location_properties)
+            timestring = self.save_json(location, location_properties)
 
-            # prop_count += inserted_property_count
+            prop_count += inserted_property_count
 
-        # logging.info(f'{prop_count} properties written to MongoDB in total')
+        log_suffix = "written to MongoDB in total" if self.mongo else f"written to json_data/{location}_properties_{timestring}.json"
+
+        logging.info(f'{prop_count} property listings {log_suffix}')
