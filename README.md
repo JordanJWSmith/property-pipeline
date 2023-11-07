@@ -1,3 +1,5 @@
+![FourthWall](assets/fourthwall_banner.png)
+
 # property-pipeline
 
 This is a toolkit to display multimodal embeddings for live property listings on Rightmove. 
@@ -41,8 +43,8 @@ See [this article](https://medium.com/analytics-vidhya/connecting-to-mongodb-atl
 Run `scrape.py` to run the webscraper. Property data will be scraped for each location code provided in `location_codes.json`. 
 
 #### Arguments
-- `-num_pages` (int): The number of Rightmove pages to scrape for each location (compulsory unless running `--test`)
-- `--mongo`: If this is set, results will be stored in a MongoDB collection. See below for connection details. 
+- `-num_pages`: The number of Rightmove pages to scrape for each location (compulsory unless running `--test`)
+- `--mongo`: If this is set, results will be stored in a MongoDB collection. See [deployment](#deployment). 
 - `--test`: If this is set, the webscraper will run over one page from Wandsworth. 
 
 #### Output
