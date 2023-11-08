@@ -14,7 +14,7 @@ class Classifier:
     def generate_predictions(self, df, pipe):
         image_labels = []
         line_break = '*'*20
-        logging.info(f'{line_break} Generating predictions for {df.shape[0]} images {line_break}')
+        logging.info(f'\n{line_break} Generating predictions for {df.shape[0]} images {line_break}')
         for image_url in tqdm(self.df['image_url']):
             try:
                 result = pipe(image_url, top_k=1)

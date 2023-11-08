@@ -36,11 +36,17 @@ MONGO_COLLECTION=<the mongoDB collection>
 
 See [this article](https://medium.com/analytics-vidhya/connecting-to-mongodb-atlas-with-python-pymongo-5b25dab3ac53) for more guidance.
 
+## Quickstart
+
+Run `pipeline.py` to run the entire pipeline from end to end. This will webscrape property data, classify all images, generate embeddings and spin up a dash server to interact with them. 
+
+NOTE: This is currently in progress, and currently supports up to the image classification stage. 
+
 ## Modules
 
 ### 1. Webscraper
 
-Run `scrape.py` to run the webscraper. Property data will be scraped for each location code provided in `location_codes.json`. 
+Run `scrape.py` to run the webscraper. By default, property data will be scraped for each location code provided in `location_codes.json`. 
 
 #### Arguments
 - `-num_pages`: The number of Rightmove pages to scrape for each location (compulsory unless running `--test`)
@@ -61,7 +67,6 @@ The webscraper retrieves a large amount of data per property in nested JSON form
 
 | Key      | Description | Type |
 | ----------- | ----------- | ---- |
-| _id         | Unique Rightmove property ID  (str)      | str |
 | id          | Unique Rightmove property ID  (str)     | str |
 | bedrooms   | Number of bedrooms (int)       | int |
 | bathrooms   | Number of bathrooms (int)       | int |
@@ -76,8 +81,8 @@ The webscraper retrieves a large amount of data per property in nested JSON form
 | propertySubType   | The type of property, i.e. "Apartment"    | str |
 | listingUpdate   | Object containing the reason and date a property was reduced   | obj |
 | premiumListing   | Whether or not the property is a premium listing.    | bool |
-|  featuredProperty   | Whether or not the property is a featured listing.    | bool |
-|  price   | An object containing the price, frequency and currencycode    | obj |
+| featuredProperty   | Whether or not the property is a featured listing.    | bool |
+| price   | An object containing the price, frequency and currencycode    | obj |
 |  customer   | An object containing information on the estate agent listing the property, including name, address and branch   | obj | 
 | distance | An object to signify distance | ? |
 | transactionType | What type of transaction this is, i.e. "BUY", "LET" | str | 
