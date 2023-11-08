@@ -24,6 +24,7 @@ class Webscraper:
             self.MONGO_CLUSTER = os.getenv('MONGO_CLUSTER')
             self.MONGO_DB_NAME = os.getenv('MONGO_DB_NAME')
             self.MONGO_COLLECTION = os.getenv('MONGO_COLLECTION')
+        self.saved_filepaths = []
 
 
     def insert_many_to_mongo(self, properties):
@@ -41,25 +42,16 @@ class Webscraper:
         return len(properties_to_insert)
 
 
-    def save_json(self, location, properties):
-        timestring = datetime.strftime(datetime.now(), '%d-%m-%Y_%H-%M-%S')
+    def save_json(self, properties, filepath):
 
-        if not os.path.isdir("json_data"):
-            os.mkdir('json_data')
-
-        os.mkdir(f"json_data/{timestring}")
-
-        with open(f'json_data/{timestring}/{location}_properties_{timestring}.json', 'w', encoding='utf-8') as f:
+        with open(f'{filepath}.json', 'w', encoding='utf-8') as f:
             f.write(json_util.dumps(properties))
 
-        return timestring
     
-
-    def save_csv(self, json_file, timestring, location):
+    def save_csv(self, json_file, filepath):
         df = json_to_csv(json_file)
-        df.to_csv(f'json_data/{timestring}/{location}_properties_{timestring}.csv')
+        df.to_csv(f'{filepath}.csv')
         
-
 
     def scrape_location(self, location, location_code):
         location_properties = []
@@ -106,18 +98,26 @@ class Webscraper:
     def scrape(self):
         line_break = '*'*20
         prop_count = 0
+
+        if not os.path.isdir("data"):
+            os.mkdir('data')
+
         for location, code in self.location_codes.items():
             logging.info(f'{line_break} Beginning scraping from {location} {line_break}')
 
             location_properties = self.scrape_location(location, code)
-
             inserted_property_count = self.insert_many_to_mongo(location_properties) if self.mongo else len(location_properties)
 
-            timestring = self.save_json(location, location_properties)
-            self.save_csv(location_properties, timestring, location)
+            timestring = datetime.strftime(datetime.now(), '%d-%m-%Y_%H-%M-%S')
+            os.mkdir(f"data/{timestring}")
+            filepath = f'data/{timestring}/{location}_properties_{timestring}'
 
+            self.save_json(location_properties, filepath)
+            self.save_csv(location_properties, filepath)
+
+            self.saved_filepaths.append(filepath)
             prop_count += inserted_property_count
 
-        log_suffix = "written to MongoDB in total" if self.mongo else f"written to json_data/{timestring}/"
+        log_suffix = "written to MongoDB in total" if self.mongo else f"written to data/{timestring}/"
 
         logging.info(f'{prop_count} property listings {log_suffix}')
