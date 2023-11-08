@@ -102,15 +102,17 @@ class Webscraper:
         if not os.path.isdir("data"):
             os.mkdir('data')
 
+        timestring = datetime.strftime(datetime.now(), '%d-%m-%Y_%H-%M-%S')
+        os.mkdir(f'data/{timestring}')
+
         for location, code in self.location_codes.items():
             logging.info(f'{line_break} Beginning scraping from {location} {line_break}')
 
             location_properties = self.scrape_location(location, code)
             inserted_property_count = self.insert_many_to_mongo(location_properties) if self.mongo else len(location_properties)
 
-            timestring = datetime.strftime(datetime.now(), '%d-%m-%Y_%H-%M-%S')
-            os.mkdir(f"data/{timestring}")
-            filepath = f'data/{timestring}/{location}_properties_{timestring}'
+            os.mkdir(f"data/{timestring}/{location}") 
+            filepath = f'data/{timestring}/{location}/{location}_properties_{timestring}'
 
             self.save_json(location_properties, filepath)
             self.save_csv(location_properties, filepath)

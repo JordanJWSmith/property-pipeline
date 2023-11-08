@@ -47,7 +47,15 @@ Run `scrape.py` to run the webscraper. Property data will be scraped for each lo
 - `--mongo`: If this is set, results will be stored in a MongoDB collection. See [deployment](#deployment). 
 - `--test`: If this is set, the webscraper will run over one page from Wandsworth. 
 
-#### Output
+#### Outputs
+
+The webscraper saves two files for each location: 
+- a timestamped .json file 
+- a timestamped .csv file
+
+These files are saved under the filepath `data/<timestamp>/<property>/<filename>`. 
+
+##### JSON
 
 The webscraper retrieves a large amount of data per property in nested JSON format. Some elements are useful, some are not. Here is a non-exhaustive selection:
 
@@ -88,7 +96,23 @@ The webscraper retrieves a large amount of data per property in nested JSON form
 | nearestStations | Station name, station type, distance and unit | obj |
 
 
-...and many other fields.
+...and many other fields. See [sample_data](/sample_data/json_file/wandsworth_properties_07-11-2023_17-52-04.json) for an example.
+
+##### CSV
+
+Certain datapoints are extracted to be included in the csv file:
+- propertyID
+- price
+- bedrooms
+- bathrooms
+- summary
+- text
+- latitude
+- longitude
+- property_type
+- lease_type
+
+These datapoints may vary through trial and error as we experiment with optimising the embeddings. See [sample_data](/sample_data/csv_file/wandsworth_properties_07-11-2023_17-52-04.csv) for an example.
 
 ### 2. Image Classifier
 
