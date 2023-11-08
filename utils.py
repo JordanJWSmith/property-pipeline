@@ -1,12 +1,8 @@
-import json
 import pandas as pd
 from tqdm import tqdm
 
 
-def json_to_csv(filepath):
-
-    with open(filepath) as f:
-        json_file = json.load(f)
+def json_to_csv(json_file):
     
     ITEMS = []
     for listing in tqdm(json_file):
