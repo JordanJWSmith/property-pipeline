@@ -2,9 +2,9 @@
 
 # property-pipeline
 
-This is a toolkit to display multimodal embeddings for live property listings on Rightmove. 
+This is a toolkit to display multimodal embeddings for live property listings on Rightmove. It forms part of [Fourthwall's](https://fourthwall.ai) vision to make the property market 100x better for buyers and renters using open source AI software. [Read our manifesto](https://medium.com/@fourthwallai/writings-on-the-wall-1-do-ais-dream-of-real-homes-2c675f5cf84a). 
 
-Work is still in progress, but its components will be:
+This is a work in progress, but its components will be:
 1. Webscraper
 2. Image classifier
 3. Embedding generator
