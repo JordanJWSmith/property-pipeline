@@ -135,3 +135,12 @@ In progress
 ### 4. Visualise Embeddings
 
 In progress
+
+
+## To Do
+
+- ~~Complete  webscraper~~
+- ~~Complete classifier~~
+- Complete embeddings for non-image data
+- Complete embeddings for image data
+- Add compatability for rental properties
