@@ -4,6 +4,7 @@ import logging
 import requests
 from tqdm import tqdm
 from bson import json_util
+from utils import json_to_csv
 from dotenv import load_dotenv
 from bs4 import BeautifulSoup
 from datetime import datetime
@@ -52,6 +53,12 @@ class Webscraper:
             f.write(json_util.dumps(properties))
 
         return timestring
+    
+
+    def save_csv(self, json_file, timestring, location):
+        df = json_to_csv(json_file)
+        df.to_csv(f'json_data/{timestring}/{location}_properties_{timestring}.csv')
+        
 
 
     def scrape_location(self, location, location_code):
@@ -107,9 +114,10 @@ class Webscraper:
             inserted_property_count = self.insert_many_to_mongo(location_properties) if self.mongo else len(location_properties)
 
             timestring = self.save_json(location, location_properties)
+            self.save_csv(location_properties, timestring, location)
 
             prop_count += inserted_property_count
 
-        log_suffix = "written to MongoDB in total" if self.mongo else f"written to json_data/{location}_properties_{timestring}.json"
+        log_suffix = "written to MongoDB in total" if self.mongo else f"written to json_data/{timestring}/"
 
         logging.info(f'{prop_count} property listings {log_suffix}')

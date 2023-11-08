@@ -92,7 +92,12 @@ The webscraper retrieves a large amount of data per property in nested JSON form
 
 ### 2. Image Classifier
 
-In progress
+The image classifier currently uses a ViT model finetuned on real estate data, and is available [here](https://huggingface.co/andupets/real-estate-image-classification-30classes). 
+
+It outputs 30 classes, some of which are a little niche for our use case. This model acts a placeholder, with the intention of replacing it with our own model finetuned on London real estate images. 
+
+Run `classify.py` to run the image classifier. It takes the csv file from the previous step as an input, and saves it with an added column containing a prediction for each image. 
+
 
 ### 3. Embeddings Generator
 
