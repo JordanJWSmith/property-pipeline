@@ -40,8 +40,6 @@ See [this article](https://medium.com/analytics-vidhya/connecting-to-mongodb-atl
 
 Run `pipeline.py` to run the entire pipeline from end to end. This will webscrape property data, classify all images, generate embeddings and spin up a dash server to interact with them. 
 
-NOTE: This is currently in progress, and currently supports up to the image classification stage. 
-
 ## Modules
 
 ### 1. Webscraper
@@ -130,7 +128,15 @@ Run `classify.py` to run the image classifier. It takes the csv file from the pr
 
 ### 3. Embeddings Generator
 
-In progress
+The toolkit can generate embeddings for non-image features and/or image data. Run `embed.py` to generate embeddings and save them locally.
+
+#### Non-Image Feature Embeddings
+The toolkit generates embeddings for numerical features, categorical features and location data.
+- Numerical features, such as price, number of bedrooms, number of bathrooms, etc, are normalised using sklearn's `StandardScaler()`.  
+- Categorical features, such as lease type and property type, are one-hot encoded.
+- Location data (latitude and longitude) are scaled using PCA. 
+
+These embeddings are saved locally as a numpy file in the timestamped directory. 
 
 ### 4. Visualise Embeddings
 
@@ -141,7 +147,9 @@ In progress
 
 - ~~Complete  webscraper~~
 - ~~Complete classifier~~
-- Complete embeddings for non-image data
+- ~~Complete embeddings for non-image data~~
 - Complete embeddings for image data
+- Add text embeddings for non-image data
+- Complete embedding visualisation
 - Add feature to train/infer recommender model
 - Add compatability for rental properties

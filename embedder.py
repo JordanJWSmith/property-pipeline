@@ -1,8 +1,11 @@
 import torch
 import numpy as np
 import pandas as pd
+from gensim.models import Word2Vec
 from sklearn.decomposition import PCA
+from nltk.tokenize import word_tokenize
 from sklearn.preprocessing import StandardScaler
+
 
 class Embedder:
     def __init__(self, df, folder_path):
@@ -12,6 +15,15 @@ class Embedder:
 
     def generate_unique_df(self):
         return self.df.drop_duplicates(subset='_id')
+    
+
+    def generate_text_embeddings(self, df):
+        df['tokenized_text'] = df['text'].apply(lambda x: word_tokenize(x.lower()))
+        word2vec_model = Word2Vec(sentences=df['tokenized_text'], vector_size=100, window=5, min_count=1, workers=4)
+        text_embeddings = df['tokenized_text'].apply(lambda tokens: np.mean([word2vec_model.wv[word] for word in tokens if word in word2vec_model.wv] or [np.zeros(100)], axis=0))
+        text_embeddings = np.vstack(text_embeddings)
+
+        return text_embeddings
 
 
     def generate_feature_embeddings(self, df):
@@ -29,10 +41,13 @@ class Embedder:
 
         categorical_embeddings = np.hstack([property_type_encoded, lease_type_encoded])
 
+        text_embeddings = self.generate_text_embeddings(df.copy())
+
         combined_embeddings = np.hstack((
         categorical_embeddings, 
         numerical_embeddings, 
-        location_embeddings
+        location_embeddings,
+        text_embeddings
         ))
 
         return combined_embeddings
