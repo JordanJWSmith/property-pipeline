@@ -1,6 +1,6 @@
 import logging
 from transformers import pipeline
-from predict_image_classes import Classifier
+from classifier import Classifier
 
 logging.basicConfig(format='%(levelname)s: %(message)s', level=logging.INFO)
 
