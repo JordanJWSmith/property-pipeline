@@ -8,7 +8,7 @@ This is a work in progress, but its components will be:
 1. Webscraper
 2. Image classifier
 3. Embedding generator
-4. Visualise embeddings
+4. Embedding projector
 
 ## Deployment
 
@@ -143,4 +143,5 @@ In progress
 - ~~Complete classifier~~
 - Complete embeddings for non-image data
 - Complete embeddings for image data
+- Add feature to train/infer recommender model
 - Add compatability for rental properties
