@@ -103,10 +103,11 @@ class Webscraper:
             os.mkdir('data')
 
         timestring = datetime.strftime(datetime.now(), '%d-%m-%Y_%H-%M-%S')
+        self.timestring = timestring
         os.mkdir(f'data/{timestring}')
 
         for location, code in self.location_codes.items():
-            logging.info(f'\n{line_break} Beginning scraping from {location} {line_break}')
+            logging.info(f'{line_break} Beginning scraping from {location} {line_break}')
 
             location_properties = self.scrape_location(location, code)
             inserted_property_count = self.insert_many_to_mongo(location_properties) if self.mongo else len(location_properties)
