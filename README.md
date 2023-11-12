@@ -131,10 +131,11 @@ Run `classify.py` to run the image classifier. It takes the csv file from the pr
 The toolkit can generate embeddings for non-image features and/or image data. Run `embed.py` to generate embeddings and save them locally.
 
 #### Non-Image Feature Embeddings
-The toolkit generates embeddings for numerical features, categorical features and location data.
+The toolkit generates embeddings for numerical features, categorical features, location data and text.
 - Numerical features, such as price, number of bedrooms, number of bathrooms, etc, are normalised using sklearn's `StandardScaler()`.  
 - Categorical features, such as lease type and property type, are one-hot encoded.
 - Location data (latitude and longitude) are scaled using PCA. 
+- Text data is embedded using Word2Vec.
 
 These embeddings are saved locally as a numpy file in the timestamped directory. 
 
@@ -149,7 +150,6 @@ In progress
 - ~~Complete classifier~~
 - ~~Complete embeddings for non-image data~~
 - Complete embeddings for image data
-- Add text embeddings for non-image data
 - Complete embedding visualisation
 - Add feature to train/infer recommender model
 - Add compatability for rental properties
